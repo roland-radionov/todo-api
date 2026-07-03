@@ -5,8 +5,8 @@ from fastapi import (
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.database import get_db
-from .schemas import TaskResponse, TaskCreate
-from .crud import get_all_tasks, create_task
+from .schemas import TaskResponse, TaskCreate, TaskUpdate
+from .crud import get_all_tasks, get_task_by_id, create_task, update_task
 
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
@@ -24,3 +24,13 @@ async def create_task_view(
 ) -> TaskResponse:
     task = await create_task(session=session, task_in=task_in)
     return task
+
+
+@router.put("/{task_id}", response_model=TaskResponse)
+async def update_task_view(
+    task_in: TaskUpdate,
+    task_id: int,
+    session: AsyncSession = Depends(get_db)
+) -> TaskResponse:
+    task = await get_task_by_id(session=session, task_id=task_id)
+    return await update_task(session=session, task_update=task_in, task=task)
