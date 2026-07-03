@@ -5,7 +5,12 @@ class TaskBase(BaseModel):
     title: str
     description: str
 
+
 class TaskCreate(TaskBase):
+    pass
+
+
+class TaskUpdate(TaskBase):
     pass
 
 
