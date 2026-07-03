@@ -1,3 +1,5 @@
+from fastapi import HTTPException, status
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Result, select
 
@@ -29,3 +31,16 @@ async def update_task(session: AsyncSession, task_update: TaskUpdate, task: Task
         setattr(task, name, value)
     await session.commit()
     return task
+
+
+
+async def delete_task(session: AsyncSession, task_id: int) -> None:
+    task = await session.get(Task, task_id)
+    if task is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Task {task_id} not found.",
+        )
+    
+    await session.delete(task)
+    await session.commit()
