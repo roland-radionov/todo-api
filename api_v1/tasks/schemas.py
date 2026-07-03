@@ -6,11 +6,12 @@ class TaskBase(BaseModel):
     description: str
 
 
+class TaskUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+
+
 class TaskCreate(TaskBase):
-    pass
-
-
-class TaskUpdate(TaskBase):
     pass
 
 
