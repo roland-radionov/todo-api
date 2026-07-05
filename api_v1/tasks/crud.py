@@ -27,7 +27,7 @@ async def create_task(session: AsyncSession, task_in: TaskCreate) -> Task:
 
 
 async def update_task(session: AsyncSession, task_update: TaskUpdate, task: Task) -> Task:
-    for name, value in task_update.model_dump().items():
+    for name, value in task_update.model_dump(exclude_unset=True).items():
         setattr(task, name, value)
     await session.commit()
     return task
