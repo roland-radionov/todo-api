@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Result, select
 
 from .schemas import TaskCreate, TaskUpdate
-
 from core.models import Task
 
 
@@ -15,7 +14,7 @@ async def get_all_tasks(session: AsyncSession) -> list[Task]:
     return tasks
 
 
-async def get_task_by_id(session: AsyncSession, task_id: int) -> Task:
+async def get_task_by_id(session: AsyncSession, task_id: int) -> Task | None:
     return await session.get(Task, task_id)
 
 
@@ -26,12 +25,13 @@ async def create_task(session: AsyncSession, task_in: TaskCreate) -> Task:
     return task
 
 
-async def update_task(session: AsyncSession, task_update: TaskUpdate, task: Task) -> Task:
+async def update_task(
+    session: AsyncSession, task_update: TaskUpdate, task: Task
+) -> Task:
     for name, value in task_update.model_dump(exclude_unset=True).items():
         setattr(task, name, value)
     await session.commit()
     return task
-
 
 
 async def delete_task(session: AsyncSession, task_id: int) -> None:
@@ -41,6 +41,6 @@ async def delete_task(session: AsyncSession, task_id: int) -> None:
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Task {task_id} not found.",
         )
-    
+
     await session.delete(task)
     await session.commit()

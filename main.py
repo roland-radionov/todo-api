@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from api_v1.tasks import tasks_router
-from core.models import Base
+from api_v1 import router as api_v1_router
 from core.database import engine
 from contextlib import asynccontextmanager
 import uvicorn
@@ -8,13 +7,13 @@ import uvicorn
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
     yield
+    await engine.dispose()
 
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(tasks_router)
+app.include_router(api_v1_router)
+
 
 @app.get("/")
 def index():
