@@ -15,7 +15,8 @@ dependencies = [
     "pydantic[email] (>=2.13.4,<3.0.0)",
     "pydantic-settings (>=2.14.2,<3.0.0)",
     "alembic (>=1.18.5,<2.0.0)",
-    "black (>=26.5.1,<27.0.0)"
+    "black (>=26.5.1,<27.0.0)",
+    "pyjwt[crypto] (>=2.13.0,<3.0.0)"
 ]
 
 
