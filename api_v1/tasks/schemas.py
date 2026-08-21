@@ -19,3 +19,10 @@ class TaskResponse(TaskBase):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class PaginatedTaskResponse(BaseModel):
+    data: list[TaskResponse]
+    page: int
+    limit: int
+    total: int

@@ -1,17 +1,30 @@
 from fastapi import HTTPException, status
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Result, select
+from sqlalchemy import Result, select, func
 
-from .schemas import TaskCreate, TaskUpdate
+from .schemas import TaskCreate, TaskUpdate, PaginatedTaskResponse
 from core.models import Task, User
 
 
-async def get_all_tasks(session: AsyncSession, user: User) -> list[Task]:
-    stmt = select(Task).where(Task.user_id == user.id)
+async def get_all_tasks(
+    session: AsyncSession, user: User, page: int, limit: int
+) -> PaginatedTaskResponse:
+    offset = (page - 1) * limit
+
+    stmt = select(Task).where(Task.user_id == user.id).offset(offset).limit(limit)
     result: Result = await session.execute(stmt)
     tasks = result.scalars().all()
-    return tasks
+
+    stmt = select(func.count(Task.id)).select_from(Task).where(Task.user_id == user.id)
+    total = await session.scalar(stmt)
+
+    return PaginatedTaskResponse(
+        data=tasks,
+        page=page,
+        limit=limit,
+        total=total,
+    )
 
 
 async def get_task_by_id(
