@@ -8,12 +8,15 @@ from auth import utils_jwt
 
 async def create_user(session: AsyncSession, user_in: UserCreate) -> User:
     user_attrs = user_in.model_dump()
+    username = user_attrs["username"]
     email = user_attrs["email"]
-    result = await session.execute(select(User).where(User.email == email))
+    result = await session.execute(
+        select(User).where((User.username == username) | (User.email == email))
+    )
     user = result.scalar()
     if user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registred"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="User already registred"
         )
 
     user_attrs["hashed_password"] = utils_jwt.hash_password(user_attrs["password"])

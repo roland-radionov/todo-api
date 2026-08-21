@@ -9,7 +9,7 @@ from auth import utils_jwt
 from typing import Annotated
 import jwt
 
-router = APIRouter(prefix="/auth", tags=["JWT Real Auth"])
+router = APIRouter(prefix="/auth", tags=["JWT Auth"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api_v1/auth/login")
 
@@ -43,7 +43,7 @@ async def get_current_user(
 
 
 @router.post("/login", response_model=Token)
-async def auth_login(
+async def login_view(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: AsyncSession = Depends(get_db),
 ) -> Token:
@@ -61,7 +61,7 @@ async def auth_login(
         )
 
     payload = {
-        "sub": user.id,
+        "sub": str(user.id),
         "username": user.username,
         "email": user.email,
     }
