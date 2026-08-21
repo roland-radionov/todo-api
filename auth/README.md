@@ -1,0 +1,3 @@
+```shell
+openssl genrsa -out jwt-private.pem 2048
+```
