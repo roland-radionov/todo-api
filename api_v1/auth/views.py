@@ -1,13 +1,16 @@
+from typing import Annotated
+
+import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from .schemas import Token
-from core.models import User
-from core.database import get_db
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from auth import utils_jwt
-from typing import Annotated
-import jwt
+from core.database import get_db
+from core.models import User
+
+from .schemas import Token
 
 router = APIRouter(prefix="/auth", tags=["JWT Auth"])
 

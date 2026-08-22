@@ -1,8 +1,10 @@
+from contextlib import asynccontextmanager
+
+import uvicorn
 from fastapi import FastAPI
+
 from api_v1 import router as api_v1_router
 from core.database import engine
-from contextlib import asynccontextmanager
-import uvicorn
 
 
 @asynccontextmanager

@@ -1,10 +1,10 @@
 from fastapi import HTTPException, status
-
+from sqlalchemy import Result, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Result, select, func, or_
 
-from .schemas import TaskCreate, TaskUpdate, PaginatedTaskResponse, FilterParams
 from core.models import Task, User
+
+from .schemas import FilterParams, PaginatedTaskResponse, TaskCreate, TaskUpdate
 
 
 async def get_all_tasks(

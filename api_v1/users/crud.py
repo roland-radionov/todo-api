@@ -1,9 +1,11 @@
 from fastapi import HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from .schemas import UserCreate
-from core.models import User
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from auth import utils_jwt
+from core.models import User
+
+from .schemas import UserCreate
 
 
 async def create_user(session: AsyncSession, user_in: UserCreate) -> User:

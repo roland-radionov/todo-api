@@ -1,6 +1,8 @@
-import jwt
+from datetime import UTC, datetime, timedelta
+
 import bcrypt
-from datetime import datetime, timedelta, timezone
+import jwt
+
 from core.config import settings
 
 
@@ -12,12 +14,12 @@ def encode_jwt(
 ):
     to_encode = payload.copy()
     if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
+        expire = datetime.now(UTC) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(
+        expire = datetime.now(UTC) + timedelta(
             minutes=settings.jwt_auth.access_token_expire_minutes
         )
-    to_encode.update({"exp": expire, "iat": datetime.now(timezone.utc)})
+    to_encode.update({"exp": expire, "iat": datetime.now(UTC)})
     encoded = jwt.encode(to_encode, private_key, algorithm=algorithm)
     return encoded
 

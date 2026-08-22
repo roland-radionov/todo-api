@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, status
-
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from core.database import get_db
-from .schemas import UserResponse, UserCreate
-from .crud import get_user_by_id, create_user
+
+from .crud import create_user, get_user_by_id
+from .schemas import UserCreate, UserResponse
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

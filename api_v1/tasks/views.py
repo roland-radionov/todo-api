@@ -1,17 +1,20 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from api_v1.auth import get_current_user
 from core.database import get_db
 from core.models import User
+
+from .crud import create_task, delete_task, get_all_tasks, get_task_by_id, update_task
 from .schemas import (
-    TaskResponse,
-    TaskCreate,
-    TaskUpdate,
-    PaginatedTaskResponse,
     FilterParams,
+    PaginatedTaskResponse,
+    TaskCreate,
+    TaskResponse,
+    TaskUpdate,
 )
-from .crud import get_all_tasks, get_task_by_id, create_task, update_task, delete_task
-from api_v1.auth import get_current_user
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
