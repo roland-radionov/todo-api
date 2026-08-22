@@ -16,7 +16,7 @@ from api_v1.auth import get_current_user
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
 
-@router.get("/", response_model=PaginatedTaskResponse)
+@router.get("/", response_model=PaginatedTaskResponse, status_code=status.HTTP_200_OK)
 async def get_tasks_view(
     filter_query: Annotated[FilterParams, Query()],
     user: User = Depends(get_current_user),
@@ -29,7 +29,7 @@ async def get_tasks_view(
     )
 
 
-@router.post("/", response_model=TaskResponse)
+@router.post("/", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
 async def create_task_view(
     task_in: TaskCreate,
     user: User = Depends(get_current_user),
@@ -39,7 +39,7 @@ async def create_task_view(
     return task
 
 
-@router.put("/{task_id}", response_model=TaskResponse)
+@router.put("/{task_id}", response_model=TaskResponse, status_code=status.HTTP_200_OK)
 async def update_task_view(
     task_id: int,
     task_in: TaskUpdate,
