@@ -1,8 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Annotated
 from core.database import get_db
 from core.models import User
-from .schemas import TaskResponse, TaskCreate, TaskUpdate, PaginatedTaskResponse
+from .schemas import (
+    TaskResponse,
+    TaskCreate,
+    TaskUpdate,
+    PaginatedTaskResponse,
+    FilterParams,
+)
 from .crud import get_all_tasks, get_task_by_id, create_task, update_task, delete_task
 from api_v1.auth import get_current_user
 
@@ -11,12 +18,15 @@ router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
 @router.get("/", response_model=PaginatedTaskResponse)
 async def get_tasks_view(
+    filter_query: Annotated[FilterParams, Query()],
     user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_db),
-    page: int = Query(1, ge=1, description="Page number"),
-    limit: int = Query(10, ge=1, le=100, description="Items per page"),
 ) -> PaginatedTaskResponse:
-    return await get_all_tasks(session=session, user=user, page=page, limit=limit)
+    return await get_all_tasks(
+        session=session,
+        user=user,
+        filter_query=filter_query,
+    )
 
 
 @router.post("/", response_model=TaskResponse)

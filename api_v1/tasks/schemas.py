@@ -1,4 +1,5 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Literal
 
 
 class TaskBase(BaseModel):
@@ -26,3 +27,11 @@ class PaginatedTaskResponse(BaseModel):
     page: int
     limit: int
     total: int
+
+
+class FilterParams(BaseModel):
+    page: int = Field(1, gt=0)
+    limit: int = Field(10, gt=0, le=100)
+    sort_by: Literal["created_at", "updated_at"] = "created_at"
+    sort_order: Literal["desc", "asc"] = "desc"
+    search: str | None = None

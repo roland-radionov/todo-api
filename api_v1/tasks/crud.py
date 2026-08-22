@@ -1,22 +1,38 @@
 from fastapi import HTTPException, status
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Result, select, func
+from sqlalchemy import Result, select, func, or_
 
-from .schemas import TaskCreate, TaskUpdate, PaginatedTaskResponse
+from .schemas import TaskCreate, TaskUpdate, PaginatedTaskResponse, FilterParams
 from core.models import Task, User
 
 
 async def get_all_tasks(
-    session: AsyncSession, user: User, page: int, limit: int
+    session: AsyncSession, user: User, filter_query: FilterParams
 ) -> PaginatedTaskResponse:
+    page = filter_query.page
+    limit = filter_query.limit
+    sort_by = filter_query.sort_by
+    sort_order = filter_query.sort_order
+    search = filter_query.search
     offset = (page - 1) * limit
 
-    stmt = select(Task).where(Task.user_id == user.id).offset(offset).limit(limit)
+    stmt = select(Task).where(Task.user_id == user.id)
+    if search:
+        stmt = stmt.where(Task.title.like(f"%{search}%"))
+
+    sort_field = getattr(Task, sort_by, Task.created_at)
+    if sort_order == "desc":
+        stmt = stmt.order_by(sort_field.desc()).offset(offset).limit(limit)
+    else:
+        stmt = stmt.order_by(sort_field).offset(offset).limit(limit)
+
     result: Result = await session.execute(stmt)
     tasks = result.scalars().all()
 
     stmt = select(func.count(Task.id)).select_from(Task).where(Task.user_id == user.id)
+    if search:
+        stmt = stmt.where(Task.title.like(f"%{search}%"))
     total = await session.scalar(stmt)
 
     return PaginatedTaskResponse(
