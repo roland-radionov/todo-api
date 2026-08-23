@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.v1.users import UserCreate, UserResponse, create_user
 from auth import utils_jwt
 from core.database import get_db
 from core.models import User
@@ -14,7 +15,7 @@ from .schemas import Token
 
 router = APIRouter(prefix="/auth", tags=["JWT Auth"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api_v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 
 async def get_current_user(
@@ -42,6 +43,16 @@ async def get_current_user(
     if not user:
         raise credentials_exception
 
+    return user
+
+
+@router.post(
+    "/register", status_code=status.HTTP_201_CREATED, response_model=UserResponse
+)
+async def register_view(
+    user_in: UserCreate, session: AsyncSession = Depends(get_db)
+) -> UserResponse:
+    user = await create_user(session=session, user_in=user_in)
     return user
 
 
