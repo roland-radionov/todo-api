@@ -6,8 +6,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from api.v1.auth import utils_jwt
 from api.v1.users import UserCreate, UserResponse, create_user
-from auth import utils_jwt
 from core.database import get_db
 from core.models import User
 

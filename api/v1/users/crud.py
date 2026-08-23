@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth import utils_jwt
+from api.v1.auth import utils_jwt
 from core.models import User
 
 from .schemas import UserCreate
