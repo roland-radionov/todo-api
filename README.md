@@ -2,7 +2,6 @@
 
 Simple todo api that enable to create user, login, and create, update, delete tasks.
 
-***
 ## Stack
 
 - **FastAPI**
@@ -13,7 +12,6 @@ Simple todo api that enable to create user, login, and create, update, delete ta
 - **Poetry**
 - **Alembic**
 
-***
 ## Getting started
   
 ### 1. Clone repository
@@ -65,15 +63,12 @@ alembic upgrade head
 
 ``` bash
 python main.py
-
 or 
-
 uvicorn main:app --reload
 ```
 
 Documentation is available on address: ```http://127.0.0.1:8000/docs```
 
-***
 ## API Endpoints
 
 ### Authentication
@@ -85,28 +80,23 @@ Documentation is available on address: ```http://127.0.0.1:8000/docs```
 
 ### Tasks
 
-```markdown
-| Method |        Endpoint        |                        Description                        |
-|:------:|:----------------------:|:---------------------------------------------------------:|
+| Method |        Endpoint         |                        Description                        |
+| :----: | :---------------------: | :-------------------------------------------------------: |
 | GET    | /api/v1/tasks/          | Receive all tasks with pagination, filtration and sorting |
 | POST   | /api/v1/tasks/          | Create task                                               |
 | PUT    | /api/v1/tasks/{task_id} | Update task by id                                         |
 | DELETE | /api/v1/tasks/{task_id} | Delete tasks by id                                        |
-```
 
 ### Filtration parameters
 
-```markdown
 |  Parameter | Type |                        Description                       |
-|:----------:|:----:|:--------------------------------------------------------:|
+| :--------: | :--: | :------------------------------------------------------: |
 | page       | int  | Page number (default: 1, min: 1)                         |
 | limit      | int  | Number of tasks per page (default: 10, min: 1, max: 100) |
 | sort_by    | str  | Sorting field ("created_at", "updated_at")               |
 | sort_order | str  | Sorting order ("asc", "desc")                            |
 | search     | str  | Search by title                                          |
-```
 
-***
 ## Requests example
 
 ### Registration
@@ -191,6 +181,10 @@ project/
 ├── pyproject.toml         # Project config (Poetry)
 └── README.md
 ```
+
+## Credits
+
+This project is based on the [Todo List API](https://roadmap.sh/projects/todo-list-api) project from [roadmap.sh](https://roadmap.sh).
 
 ## Author
 
