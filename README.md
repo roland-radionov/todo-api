@@ -80,10 +80,6 @@ Documentation is available on address: ```http://127.0.0.1:8000/docs```
 
 ### Tasks
 
-<<<<<<< HEAD
-=======
-```markdown
->>>>>>> ba9bdcdf31febe961f1c6551b537043234205fb2
 | Method |        Endpoint         |                        Description                        |
 | :----: | :---------------------: | :-------------------------------------------------------: |
 | GET    | /api/v1/tasks/          | Receive all tasks with pagination, filtration and sorting |
