@@ -86,8 +86,8 @@ Documentation is available on address: ```http://127.0.0.1:8000/docs```
 ### Tasks
 
 ```markdown
-| Method |        Endpoint        |                        Description                        |
-|:------:|:----------------------:|:---------------------------------------------------------:|
+| Method |        Endpoint         |                        Description                        |
+| :----: | :---------------------: | :-------------------------------------------------------: |
 | GET    | /api/v1/tasks/          | Receive all tasks with pagination, filtration and sorting |
 | POST   | /api/v1/tasks/          | Create task                                               |
 | PUT    | /api/v1/tasks/{task_id} | Update task by id                                         |
@@ -98,7 +98,7 @@ Documentation is available on address: ```http://127.0.0.1:8000/docs```
 
 ```markdown
 |  Parameter | Type |                        Description                       |
-|:----------:|:----:|:--------------------------------------------------------:|
+| :--------: | :--: | :------------------------------------------------------: |
 | page       | int  | Page number (default: 1, min: 1)                         |
 | limit      | int  | Number of tasks per page (default: 10, min: 1, max: 100) |
 | sort_by    | str  | Sorting field ("created_at", "updated_at")               |
@@ -191,6 +191,10 @@ project/
 ├── pyproject.toml         # Project config (Poetry)
 └── README.md
 ```
+
+## Credits
+
+This project is based on the [Todo List API](https://roadmap.sh/projects/todo-list-api) project from [roadmap.sh](https://roadmap.sh).
 
 ## Author
 
