@@ -1,5 +1,10 @@
 .env
-.vscode
-__pycache__
 certs/
 todo.db
+*.key
+*.pem
+.vscode
+__pycache__
+.pytest_cache/
+.ruff_cache/
+.venv/
